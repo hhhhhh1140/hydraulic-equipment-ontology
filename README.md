@@ -2,6 +2,24 @@
 
 将 UCI 447 液压试验台的 2,205 个实测周期组织为可查询的 RDF。每个周期持续 60 秒，关联冷却器、换向阀、液压泵和蓄能器的工况标签，以及压力、流量、温度和振动四个通道的信号摘要。试验条件由研究人员设置，周期编号对应原始文件从 1 开始的行号。
 
+## 在线演示
+
+**[打开交互式图谱](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/)** · [液压泵一跳邻域](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?focus=Pump&hops=1) · [第 610 周期维护试算](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?cycle=610&view=sandbox)
+
+| 能做什么 | 上手示例 |
+|---|---|
+| 看图谱和邻域 | 搜索「液压泵」，切换「一跳」，查看连到试验台和工况标签的两条入边 |
+| 从工况追溯原始测量 | 在「周期与证据」筛选「严重泵内泄漏 + 蓄能器 90 bar」，定位到命中的 123 个周期 |
+| 对比两个维护方案 | 在「OntoOS 试算」用第 610 周期作为共同起点，运行 8 步，并查看每项动作触发的规则 |
+
+### 液压设备关系图
+
+[![液压设备关系图与类型、来源、关系筛选](docs/images/graph.png)](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/)
+
+### 维护方案沙盘
+
+[![第 610 周期暂缓维护与液压泵优先方案对比](docs/images/sandbox.png)](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?cycle=610&view=sandbox)
+
 ## 在 VS Code 里打开
 
 1. 打开 [hydraulic-equipment-ontology.code-workspace](hydraulic-equipment-ontology.code-workspace)，或者在 VS Code 里选择 **文件 → 打开文件夹**，选中本项目目录。

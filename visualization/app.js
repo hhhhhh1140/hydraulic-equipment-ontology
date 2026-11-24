@@ -85,4 +85,8 @@
     current: () => snapshot(Number(cycle.value))
   };
   applyFilter(initial);
+  const view = new URLSearchParams(location.search).get("view");
+  if (panels.includes(view) && view !== "graph") {
+    window.addEventListener("load", () => showPanel(view), {once: true});
+  }
 })();
