@@ -345,6 +345,7 @@ def main():
     result = {
         "classes": CLASSES, "relations": OBJECTS, "components": COMPONENTS,
         "channels": {name: CHANNELS[name] for name in SELECTED_CHANNELS},
+        "channelMetadata": CHANNELS,
         "profiles": profiles,
         "means": [[float(summaries[ch][i][1]) for ch in SELECTED_CHANNELS] for i in range(len(profiles))],
         "sha256": archive_hash,
