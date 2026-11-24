@@ -1,0 +1,91 @@
+@prefix hyd: <https://example.org/hydraulics/uci447#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+hyd:ChannelShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:integer ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:sampleRateHz ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:unit ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:quantity ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:minCount 0 ;
+            sh:path hyd:virtual ] ;
+    sh:targetClass hyd:Channel .
+
+hyd:ConditionAssessmentShape a sh:NodeShape ;
+    sh:property [ sh:class hyd:Component ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:forComponent ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:conditionMeaning ],
+        [ sh:datatype xsd:integer ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:rawCode ] ;
+    sh:targetClass hyd:ConditionAssessment .
+
+hyd:SignalSummaryShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:integer ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:sampleCount ],
+        [ sh:datatype xsd:decimal ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:maximum ],
+        [ sh:datatype xsd:decimal ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:minimum ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:sourceMember ],
+        [ sh:datatype xsd:decimal ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:mean ],
+        [ sh:class hyd:Channel ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:fromChannel ] ;
+    sh:targetClass hyd:SignalSummary .
+
+hyd:TestCycleShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:integer ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:stabilityFlag ],
+        [ sh:class hyd:ConditionAssessment ;
+            sh:maxCount 4 ;
+            sh:minCount 4 ;
+            sh:path hyd:hasAssessment ],
+        [ sh:datatype xsd:integer ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:rowNumber ],
+        [ sh:class hyd:SignalSummary ;
+            sh:maxCount 4 ;
+            sh:minCount 4 ;
+            sh:path hyd:hasSummary ],
+        [ sh:class hyd:HydraulicRig ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:onRig ],
+        [ sh:datatype xsd:integer ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path hyd:durationSeconds ] ;
+    sh:targetClass hyd:TestCycle .

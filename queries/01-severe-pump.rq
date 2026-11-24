@@ -1,0 +1,7 @@
+# 严重泵内泄漏出现在哪些周期？同时返回试验台稳定性标记。
+PREFIX hyd: <https://example.org/hydraulics/uci447#>
+SELECT ?row ?flag WHERE {
+  ?tag hyd:forComponent hyd:Pump ; hyd:rawCode ?code .
+  ?cycle hyd:hasAssessment ?tag ; hyd:rowNumber ?row ; hyd:stabilityFlag ?flag .
+  FILTER(?code = 2)
+} ORDER BY ?row

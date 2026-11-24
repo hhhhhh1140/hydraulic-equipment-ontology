@@ -1,0 +1,10 @@
+# 同一周期中出现严重泵内泄漏与蓄能器 90 bar 的周期。
+PREFIX hyd: <https://example.org/hydraulics/uci447#>
+SELECT ?row ?flag ?meanPS1 WHERE {
+  ?pump hyd:forComponent hyd:Pump ; hyd:rawCode ?code .
+  ?cycle hyd:hasAssessment ?pump, ?acc ; hyd:rowNumber ?row ;
+         hyd:stabilityFlag ?flag ; hyd:hasSummary ?summary .
+  ?acc hyd:forComponent ?component ; hyd:rawCode ?pressure .
+  ?summary hyd:fromChannel ?channel ; hyd:mean ?meanPS1 .
+  FILTER(?code = 2 && ?component = hyd:Accumulator && ?pressure = 90 && ?channel = hyd:PS1)
+} ORDER BY ?row

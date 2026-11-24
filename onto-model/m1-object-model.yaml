@@ -1,0 +1,154 @@
+model_type: OBJECT
+version: '1.0'
+domain: 工业液压试验台状态监测
+entities:
+- id: HydraulicRig
+  alias: HydraulicRig
+  name: 液压试验台
+  description: 包含工作回路、冷却过滤回路和受试部件的实验设备。
+  lifecycle: []
+  attributes: []
+- id: HydraulicCircuit
+  alias: HydraulicCircuit
+  name: 液压回路
+  description: 试验台的工作回路或冷却过滤回路。
+  lifecycle: []
+  attributes: []
+- id: OilTank
+  alias: OilTank
+  name: 油箱
+  description: 连接两个回路的共用油箱。
+  lifecycle: []
+  attributes: []
+- id: Component
+  alias: Component
+  name: 受试部件
+  description: 公开数据中具备周期级状态标签的四种部件。
+  lifecycle: []
+  attributes: []
+- id: Channel
+  alias: Channel
+  name: 采集通道
+  description: 数据集定义的测量或计算通道，保留采样率和物理量。
+  lifecycle: []
+  attributes:
+  - name: quantity
+    label: 物理量
+    type: String
+    required: true
+  - name: unit
+    label: 单位
+    type: String
+    required: true
+  - name: sampleRateHz
+    label: 采样率（Hz）
+    type: Integer
+    required: true
+  - name: virtual
+    label: 虚拟通道
+    type: Boolean
+    required: false
+- id: TestCycle
+  alias: TestCycle
+  name: 试验周期
+  description: 原压缩包中按行对齐的一次 60 秒负载循环。
+  lifecycle: []
+  attributes:
+  - name: rowNumber
+    label: 原始行号（从1起）
+    type: Integer
+    required: true
+  - name: durationSeconds
+    label: 周期时长（秒）
+    type: Integer
+    required: true
+  - name: stabilityFlag
+    label: 稳定性标记
+    type: Integer
+    required: true
+- id: ConditionAssessment
+  alias: ConditionAssessment
+  name: 部件工况标签
+  description: 原始 profile.txt 对某一试验周期、某一部件的工况标注。
+  lifecycle: []
+  attributes:
+  - name: rawCode
+    label: 原始工况值
+    type: Integer
+    required: true
+  - name: conditionMeaning
+    label: 工况释义
+    type: String
+    required: true
+- id: SignalSummary
+  alias: SignalSummary
+  name: 周期信号摘要
+  description: 从一个周期和一个通道的原始采样值计算的均值、最小值和最大值。
+  lifecycle: []
+  attributes:
+  - name: sampleCount
+    label: 样点数
+    type: Integer
+    required: true
+  - name: mean
+    label: 周期均值
+    type: Decimal
+    required: true
+  - name: minimum
+    label: 周期最小值
+    type: Decimal
+    required: true
+  - name: maximum
+    label: 周期最大值
+    type: Decimal
+    required: true
+  - name: sourceMember
+    label: 原压缩包文件
+    type: String
+    required: true
+relations:
+- id: hasCircuit
+  type: ASSOCIATION
+  sourceEntity: HydraulicRig
+  targetEntity: HydraulicCircuit
+  targetRole: 包含回路
+- id: sharesTank
+  type: ASSOCIATION
+  sourceEntity: HydraulicCircuit
+  targetEntity: OilTank
+  targetRole: 使用共用油箱
+- id: hasComponent
+  type: ASSOCIATION
+  sourceEntity: HydraulicRig
+  targetEntity: Component
+  targetRole: 包含受试部件
+- id: hasChannel
+  type: ASSOCIATION
+  sourceEntity: HydraulicRig
+  targetEntity: Channel
+  targetRole: 配置采集通道
+- id: onRig
+  type: ASSOCIATION
+  sourceEntity: TestCycle
+  targetEntity: HydraulicRig
+  targetRole: 在试验台运行
+- id: hasAssessment
+  type: ASSOCIATION
+  sourceEntity: TestCycle
+  targetEntity: ConditionAssessment
+  targetRole: 具有工况标签
+- id: forComponent
+  type: ASSOCIATION
+  sourceEntity: ConditionAssessment
+  targetEntity: Component
+  targetRole: 标注部件
+- id: hasSummary
+  type: ASSOCIATION
+  sourceEntity: TestCycle
+  targetEntity: SignalSummary
+  targetRole: 具有信号摘要
+- id: fromChannel
+  type: ASSOCIATION
+  sourceEntity: SignalSummary
+  targetEntity: Channel
+  targetRole: 来自通道

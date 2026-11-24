@@ -1,0 +1,8 @@
+# 周期 1 的监测结果如何回到文件？可把行号 1 换为 1–2205。
+PREFIX hyd: <https://example.org/hydraulics/uci447#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?file (1 AS ?row) ?count ?average ?source WHERE {
+  ?cycle hyd:rowNumber 1 ; hyd:hasSummary ?summary .
+  ?summary hyd:sourceMember ?file ; hyd:sampleCount ?count ; hyd:mean ?average ;
+           prov:wasDerivedFrom ?source .
+} ORDER BY ?file

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>液压设备状态监测本体</title>
+<style>
+:root{color-scheme:light dark;--font-size-base:16px;--background:#f3f6f7;--foreground:#17272a;--muted-foreground:#465b5e;--border:#cbd8da;--accent:#14665c;--card:#fff;--selected:#0b5b52;--selected-text:#fff}
+@media(prefers-color-scheme:dark){:root{--background:#132124;--foreground:#e8f4f2;--muted-foreground:#b0c5c5;--border:#385154;--accent:#8de0cb;--card:#1c2e32;--selected:#9bdfd1;--selected-text:#14342f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--background);color:var(--foreground);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;line-height:1.6}
+main{max-width:58rem;margin:auto;padding:clamp(1rem,4vw,3rem)}
+h1,h2,p{margin:0}h1{font-size:clamp(1.55rem,4vw,2.35rem);line-height:1.2;letter-spacing:-.02em}h2{font-size:1.05rem}
+.nav{display:flex;gap:1rem;border-bottom:1px solid var(--border)}
+.nav-link{appearance:none;background:none;border:0;border-bottom:2px solid transparent;padding:.55rem .1rem;color:var(--muted-foreground);font:inherit;cursor:pointer}
+.nav-link[aria-selected=true]{border-color:var(--accent);color:var(--foreground);font-weight:650}
+.viz-controls{display:flex;gap:.9rem;flex-wrap:wrap}
+.form-label{display:grid;gap:.28rem;font-weight:600;justify-self:start}
+.form-select{padding:.48rem .68rem;border:1px solid var(--border);border-radius:.42rem;background:var(--card);color:var(--foreground);font:inherit;font-weight:400;max-width:100%;min-height:44px}
+.form-select:focus-visible,.nav-link:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.table{width:100%;border-collapse:collapse;table-layout:fixed;text-align:left}
+.table th,.table td{padding:.48rem .45rem;border-bottom:1px solid var(--border);vertical-align:top}
+.table th{color:var(--muted-foreground);font-weight:600}
+.table th:nth-child(3){width:40%}
+.text-small{font-size:.86rem}.text-muted{color:var(--muted-foreground)}a{color:var(--accent)}
+#hy-state{font-variant-numeric:tabular-nums}
+@media(max-width:430px){.table th,.table td{padding:.4rem .22rem}.table th:nth-child(3){width:38%}}
+</style>
+</head>
+<body>
+<main>
+<div id="hyd447-view">
+  <h1>液压设备状态监测本体</h1>
+  <div class="nav nav-pills" role="tablist" aria-label="本体视图">
+    <button class="nav-link active" id="hy-tab-data" type="button" role="tab" aria-controls="hy-panel-data" aria-selected="true">周期与证据</button>
+    <button class="nav-link" id="hy-tab-model" type="button" role="tab" aria-controls="hy-panel-model" aria-selected="false">概念与关系</button>
+  </div>
+  <div id="hy-panel-data" role="tabpanel" aria-labelledby="hy-tab-data">
+    <div class="viz-controls">
+      <label class="form-label">工况筛选
+        <select class="form-select" id="hy-filter">
+          <option value="all">全部试验周期</option>
+          <option value="severe">严重泵内泄漏</option>
+          <option value="both">严重泵内泄漏 + 蓄能器 90 bar</option>
+        </select>
+      </label>
+      <label class="form-label">试验周期（原始行号）
+        <select class="form-select" id="hy-cycle"></select>
+      </label>
+    </div>
+    <p id="hy-state" aria-live="polite"></p>
+    <section aria-labelledby="hy-assess-head">
+      <h2 id="hy-assess-head">部件工况</h2>
+      <table class="table table-sm" aria-labelledby="hy-assess-head">
+        <thead><tr><th scope="col">受试部件</th><th scope="col">原始值</th><th scope="col">标签含义</th></tr></thead>
+        <tbody id="hy-assessments"></tbody>
+      </table>
+    </section>
+    <section aria-labelledby="hy-signals-head">
+      <h2 id="hy-signals-head">同周期信号</h2>
+      <table class="table table-sm" aria-labelledby="hy-signals-head">
+        <thead><tr><th scope="col">通道</th><th scope="col">周期均值</th><th scope="col">原始文件</th></tr></thead>
+        <tbody id="hy-signals"></tbody>
+      </table>
+    </section>
+    <p class="text-small text-muted">工况来自 profile.txt。同一周期的标签与各通道信号共用原始行号。<a href="https://doi.org/10.24432/C5CW21" target="_blank" rel="noopener">UCI 数据来源</a></p>
+  </div>
+  <div id="hy-panel-model" role="tabpanel" aria-labelledby="hy-tab-model" hidden>
+    <div class="hy-paths" role="group" aria-label="两条核心关系路径">
+      <div><span>试验周期</span><span aria-hidden="true">→</span><span>部件工况标签</span><span aria-hidden="true">→</span><span>受试部件</span></div>
+      <div><span>试验周期</span><span aria-hidden="true">→</span><span>周期信号摘要</span><span aria-hidden="true">→</span><span>采集通道</span></div>
+    </div>
+    <label class="form-label">查看概念的关系
+      <select class="form-select" id="hy-class"></select>
+    </label>
+    <p id="hy-description" aria-live="polite"></p>
+    <table class="table table-sm" aria-label="所选概念的关系">
+      <thead><tr><th scope="col">起点</th><th scope="col">关系</th><th scope="col">终点</th></tr></thead>
+      <tbody id="hy-relations"></tbody>
+    </table>
+    <p class="text-small text-muted">每条关系从左列指向右列。</p>
+  </div>
+</div>
+<style>
+#hyd447-view {display:grid;gap:calc(var(--font-size-base) * .8)}
+#hyd447-view [role=tabpanel]:not([hidden]) {display:grid;gap:calc(var(--font-size-base) * .7)}
+#hyd447-view h2 {margin-bottom:calc(var(--font-size-base) * .2)}
+#hyd447-view th,#hyd447-view td {overflow-wrap:anywhere}
+#hyd447-view label {max-width:100%}
+#hyd447-view .hy-paths {display:grid;gap:calc(var(--font-size-base) * .4)}
+#hyd447-view .hy-paths div {display:flex;flex-wrap:wrap;align-items:center;gap:calc(var(--font-size-base) * .35)}
+#hyd447-view .hy-paths span:nth-child(odd) {font-weight:500}
+#hyd447-view .hy-paths span:nth-child(even) {color:var(--muted-foreground)}
+#hyd447-view .tabular-nums {font-variant-numeric:tabular-nums}
+</style>
+<script type="application/json" id="hyd447-data">__DATA__</script>
+<script>
+(() => {
+  const root = document.getElementById("hyd447-view");
+  const data = JSON.parse(document.getElementById("hyd447-data").textContent);
+  const filter = root.querySelector("#hy-filter");
+  const cycle = root.querySelector("#hy-cycle");
+  const concept = root.querySelector("#hy-class");
+  const state = root.querySelector("#hy-state");
+  const assessments = root.querySelector("#hy-assessments");
+  const signals = root.querySelector("#hy-signals");
+  const filterFns = {
+    all: () => true,
+    severe: profile => profile[2] === 2,
+    both: profile => profile[2] === 2 && profile[3] === 90
+  };
+  function row(values) {
+    const item = document.createElement("tr");
+    for (const value of values) {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      item.append(cell);
+    }
+    return item;
+  }
+  function renderCycle() {
+    const index = Number(cycle.value) - 1;
+    const profile = data.profiles[index];
+    const stability = profile[4] === 0 ? "稳定（0）" : "可能尚未稳定（1）";
+    state.textContent = `周期 ${index + 1} · 60 秒 · ${stability} · 筛选命中 ${cycle.options.length} 个周期`;
+    assessments.replaceChildren(...data.components.map(([, label, unit, meanings], i) =>
+      row([label, `${unit === "等级" ? "等级 " + profile[i] : profile[i] + " " + unit}`, meanings[profile[i]]])
+    ));
+    signals.replaceChildren(...Object.entries(data.channels).map(([name, [quantity, unit]], i) =>
+      row([`${name} · ${quantity}`, `${data.means[index][i].toFixed(4)} ${unit}`, `${name}.txt · 第 ${index + 1} 行`])
+    ));
+  }
+  function applyFilter(preferred) {
+    const predicate = filterFns[filter.value];
+    const options = data.profiles.flatMap((profile, index) =>
+      predicate(profile) ? [new Option(String(index + 1), String(index + 1))] : []
+    );
+    cycle.replaceChildren(...options);
+    if (options.some(option => option.value === String(preferred))) cycle.value = String(preferred);
+    renderCycle();
+  }
+  function renderConcept() {
+    const key = concept.value;
+    root.querySelector("#hy-description").textContent = data.classes[key][1];
+    root.querySelector("#hy-relations").replaceChildren(...Object.values(data.relations)
+      .filter(([, from, to]) => from === key || to === key)
+      .map(([rel, from, to]) => row([data.classes[from][0], rel, data.classes[to][0]])));
+  }
+  function restore(value) {
+    filter.value = Object.hasOwn(filterFns, value?.filter) ? value.filter : "all";
+    concept.value = Object.hasOwn(data.classes, value?.concept) ? value.concept : "TestCycle";
+    applyFilter(value?.cycle ?? data.example.row);
+    renderConcept();
+  }
+  concept.replaceChildren(...Object.entries(data.classes).map(([key, [label]]) => new Option(label, key)));
+  filter.addEventListener("change", () => applyFilter(cycle.value));
+  cycle.addEventListener("change", renderCycle);
+  concept.addEventListener("change", renderConcept);
+  const tabs = [...root.querySelectorAll('[role="tab"]')];
+  function selectTab(selected, focus = false) {
+    for (const tab of tabs) {
+      const active = tab === selected;
+      tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
+      document.getElementById(tab.getAttribute("aria-controls")).hidden = !active;
+    }
+    if (focus) selected.focus();
+  }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectTab(tab));
+    tab.addEventListener("keydown", event => {
+      const offsets = {ArrowLeft: -1, ArrowRight: 1};
+      if (!(event.key in offsets) && event.key !== "Home" && event.key !== "End") return;
+      event.preventDefault();
+      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 :
+        (index + offsets[event.key] + tabs.length) % tabs.length;
+      selectTab(tabs[next], true);
+    });
+  });
+  selectTab(tabs[0]);
+  restore();
+})();
+</script>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,161 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix hyd: <https://example.org/hydraulics/uci447#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/hydraulics/uci447> a owl:Ontology ;
+    rdfs:label "液压设备状态监测本体"@zh ;
+    dct:source <https://doi.org/10.24432/C5CW21> ;
+    owl:versionInfo "1.0" .
+
+hyd:conditionMeaning a owl:DatatypeProperty ;
+    rdfs:label "工况释义"@zh ;
+    rdfs:domain hyd:ConditionAssessment ;
+    rdfs:range xsd:string .
+
+hyd:durationSeconds a owl:DatatypeProperty ;
+    rdfs:label "周期时长（秒）"@zh ;
+    rdfs:domain hyd:TestCycle ;
+    rdfs:range xsd:integer .
+
+hyd:forComponent a owl:ObjectProperty ;
+    rdfs:label "标注部件"@zh ;
+    rdfs:domain hyd:ConditionAssessment ;
+    rdfs:range hyd:Component .
+
+hyd:fromChannel a owl:ObjectProperty ;
+    rdfs:label "来自通道"@zh ;
+    rdfs:domain hyd:SignalSummary ;
+    rdfs:range hyd:Channel .
+
+hyd:hasAssessment a owl:ObjectProperty ;
+    rdfs:label "具有工况标签"@zh ;
+    rdfs:domain hyd:TestCycle ;
+    rdfs:range hyd:ConditionAssessment .
+
+hyd:hasChannel a owl:ObjectProperty ;
+    rdfs:label "配置采集通道"@zh ;
+    rdfs:domain hyd:HydraulicRig ;
+    rdfs:range hyd:Channel .
+
+hyd:hasCircuit a owl:ObjectProperty ;
+    rdfs:label "包含回路"@zh ;
+    rdfs:domain hyd:HydraulicRig ;
+    rdfs:range hyd:HydraulicCircuit .
+
+hyd:hasComponent a owl:ObjectProperty ;
+    rdfs:label "包含受试部件"@zh ;
+    rdfs:domain hyd:HydraulicRig ;
+    rdfs:range hyd:Component .
+
+hyd:hasSummary a owl:ObjectProperty ;
+    rdfs:label "具有信号摘要"@zh ;
+    rdfs:domain hyd:TestCycle ;
+    rdfs:range hyd:SignalSummary .
+
+hyd:maximum a owl:DatatypeProperty ;
+    rdfs:label "周期最大值"@zh ;
+    rdfs:domain hyd:SignalSummary ;
+    rdfs:range xsd:decimal .
+
+hyd:mean a owl:DatatypeProperty ;
+    rdfs:label "周期均值"@zh ;
+    rdfs:domain hyd:SignalSummary ;
+    rdfs:range xsd:decimal .
+
+hyd:minimum a owl:DatatypeProperty ;
+    rdfs:label "周期最小值"@zh ;
+    rdfs:domain hyd:SignalSummary ;
+    rdfs:range xsd:decimal .
+
+hyd:onRig a owl:ObjectProperty ;
+    rdfs:label "在试验台运行"@zh ;
+    rdfs:domain hyd:TestCycle ;
+    rdfs:range hyd:HydraulicRig .
+
+hyd:quantity a owl:DatatypeProperty ;
+    rdfs:label "物理量"@zh ;
+    rdfs:domain hyd:Channel ;
+    rdfs:range xsd:string .
+
+hyd:rawCode a owl:DatatypeProperty ;
+    rdfs:label "原始工况值"@zh ;
+    rdfs:domain hyd:ConditionAssessment ;
+    rdfs:range xsd:integer .
+
+hyd:rowNumber a owl:DatatypeProperty ;
+    rdfs:label "原始行号（从1起）"@zh ;
+    rdfs:domain hyd:TestCycle ;
+    rdfs:range xsd:integer .
+
+hyd:sampleCount a owl:DatatypeProperty ;
+    rdfs:label "样点数"@zh ;
+    rdfs:domain hyd:SignalSummary ;
+    rdfs:range xsd:integer .
+
+hyd:sampleRateHz a owl:DatatypeProperty ;
+    rdfs:label "采样率（Hz）"@zh ;
+    rdfs:domain hyd:Channel ;
+    rdfs:range xsd:integer .
+
+hyd:sharesTank a owl:ObjectProperty ;
+    rdfs:label "使用共用油箱"@zh ;
+    rdfs:domain hyd:HydraulicCircuit ;
+    rdfs:range hyd:OilTank .
+
+hyd:sourceMember a owl:DatatypeProperty ;
+    rdfs:label "原压缩包文件"@zh ;
+    rdfs:domain hyd:SignalSummary ;
+    rdfs:range xsd:string .
+
+hyd:stabilityFlag a owl:DatatypeProperty ;
+    rdfs:label "稳定性标记"@zh ;
+    rdfs:domain hyd:TestCycle ;
+    rdfs:range xsd:integer .
+
+hyd:unit a owl:DatatypeProperty ;
+    rdfs:label "单位"@zh ;
+    rdfs:domain hyd:Channel ;
+    rdfs:range xsd:string .
+
+hyd:virtual a owl:DatatypeProperty ;
+    rdfs:label "虚拟通道"@zh ;
+    rdfs:domain hyd:Channel ;
+    rdfs:range xsd:boolean .
+
+<https://doi.org/10.24432/C5CW21> dct:creator "Nikolai Helwig, Eliseo Pignanelli, Andreas Schütze" ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dct:title "Condition monitoring of hydraulic systems" .
+
+hyd:OilTank a owl:Class ;
+    rdfs:label "油箱"@zh ;
+    rdfs:comment "连接两个回路的共用油箱。"@zh .
+
+hyd:Component a owl:Class ;
+    rdfs:label "受试部件"@zh ;
+    rdfs:comment "公开数据中具备周期级状态标签的四种部件。"@zh .
+
+hyd:HydraulicCircuit a owl:Class ;
+    rdfs:label "液压回路"@zh ;
+    rdfs:comment "试验台的工作回路或冷却过滤回路。"@zh .
+
+hyd:ConditionAssessment a owl:Class ;
+    rdfs:label "部件工况标签"@zh ;
+    rdfs:comment "原始 profile.txt 对某一试验周期、某一部件的工况标注。"@zh .
+
+hyd:HydraulicRig a owl:Class ;
+    rdfs:label "液压试验台"@zh ;
+    rdfs:comment "包含工作回路、冷却过滤回路和受试部件的实验设备。"@zh .
+
+hyd:Channel a owl:Class ;
+    rdfs:label "采集通道"@zh ;
+    rdfs:comment "数据集定义的测量或计算通道，保留采样率和物理量。"@zh .
+
+hyd:TestCycle a owl:Class ;
+    rdfs:label "试验周期"@zh ;
+    rdfs:comment "原压缩包中按行对齐的一次 60 秒负载循环。"@zh .
+
+hyd:SignalSummary a owl:Class ;
+    rdfs:label "周期信号摘要"@zh ;
+    rdfs:comment "从一个周期和一个通道的原始采样值计算的均值、最小值和最大值。"@zh .
