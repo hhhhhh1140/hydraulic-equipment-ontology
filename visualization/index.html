@@ -11,6 +11,9 @@
 <script defer src="app.js"></script>
 <script defer src="graph.js"></script>
 <script defer src="sandbox.js"></script>
+<script defer src="pilot-data.js"></script>
+<script defer src="pilot-flow.js"></script>
+<script defer src="pilot.js"></script>
 </head>
 <body>
 <header class="app-header">
@@ -19,6 +22,7 @@
     <button id="tab-graph" aria-pressed="true" aria-controls="panel-graph">关系图谱</button>
     <button id="tab-evidence" aria-pressed="false" aria-controls="panel-evidence">周期与证据</button>
     <button id="tab-sandbox" aria-pressed="false" aria-controls="panel-sandbox">OntoOS 试算</button>
+    <button id="tab-pilot" aria-pressed="false" aria-controls="panel-pilot">维修闭环</button>
   </nav>
 </header>
 <main>
@@ -119,6 +123,38 @@
   <details class="panel">
     <summary>查看模型规则和优先级</summary>
     <ul id="sandbox-rules"></ul>
+  </details>
+</section>
+<section id="panel-pilot" class="content pilot" aria-labelledby="tab-pilot" hidden>
+  <h2>液压站维修闭环</h2>
+  <p class="muted">UCI 周期及信号为实测。工厂、设备编号、告警时间、人员和工单均为回放样例。本机操作仅用于演示。</p>
+  <p id="pilot-hierarchy"></p>
+  <label class="field pilot-case">回放案例<select id="pilot-case"></select></label>
+  <div class="plan-grid">
+    <article class="panel">
+      <h3>设备与异常证据</h3>
+      <dl id="pilot-facts" class="pilot-facts"></dl>
+      <button id="pilot-uci" type="button">查看对应 UCI 周期</button>
+    </article>
+    <article class="panel">
+      <h3>工单状态</h3>
+      <p id="pilot-stage" aria-live="polite"></p>
+      <p id="pilot-rule" class="muted small"></p>
+      <div id="pilot-actions" class="sandbox-controls"></div>
+      <p id="pilot-message" role="alert"></p>
+      <h4>处理记录</h4>
+      <p id="pilot-log-empty" class="muted">尚无人工处理记录。</p>
+      <ol id="pilot-log" class="pilot-log"></ol>
+    </article>
+  </div>
+  <details class="panel">
+    <summary>近七天已结案查询基准</summary>
+    <p id="pilot-window-end" class="muted small"></p>
+    <p class="muted small">这里显示仓库中已结案样例的 SPARQL 结果。本机回放记录保存在当前浏览器。</p>
+    <table class="table" aria-label="已结案样例">
+      <thead><tr><th scope="col">资产</th><th scope="col">测点</th><th scope="col">故障周期</th><th scope="col">工单</th><th scope="col">复测周期</th><th scope="col">结果</th></tr></thead>
+      <tbody id="pilot-history"></tbody>
+    </table>
   </details>
 </section>
 </main>

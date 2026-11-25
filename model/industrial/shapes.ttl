@@ -1,0 +1,52 @@
+@prefix m: <https://example.org/hydraulics/industrial#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+m:InstallationShape a sh:NodeShape ;
+  sh:targetClass m:Installation ;
+  sh:property [ sh:path m:position ; sh:class m:Position ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:asset ; sh:class m:Asset ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:validFrom ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ; sh:lessThan m:validUntil ] ;
+  sh:property [ sh:path m:validUntil ; sh:datatype xsd:dateTime ; sh:maxCount 1 ] .
+
+m:AlarmShape a sh:NodeShape ;
+  sh:targetClass m:Alarm ;
+  sh:property [ sh:path m:position ; sh:class m:Position ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:scenarioTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:evidence ; sh:class m:ReplayObservation ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:quality ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+m:ObservationShape a sh:NodeShape ;
+  sh:targetClass m:ReplayObservation ;
+  sh:property [ sh:path sosa:madeBySensor ; sh:class m:Tag ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:scenarioTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:quality ; sh:in ("QUALIFIED"^^xsd:string "NO_SIGNAL"^^xsd:string "MISSING_INSTALLATION"^^xsd:string
+      "UNIT_MISMATCH"^^xsd:string "UNSTABLE"^^xsd:string) ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+m:QualifiedShape a sh:NodeShape ;
+  sh:targetClass m:QualifiedObservation ;
+  sh:property [ sh:path m:installation ; sh:class m:Installation ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:reportedUnit ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ; sh:equals m:expectedUnit ] ;
+  sh:property [ sh:path m:rowNumber ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:reading ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:quality ; sh:hasValue "QUALIFIED"^^xsd:string ] .
+
+m:RejectedShape a sh:NodeShape ;
+  sh:targetClass m:RejectedObservation ;
+  sh:not [ sh:class m:QualifiedObservation ] ;
+  sh:property [ sh:path m:reading ; sh:maxCount 0 ] .
+
+m:ClosedOrderShape a sh:NodeShape ;
+  sh:targetClass m:ClosedWorkOrder ;
+  sh:property [ sh:path m:status ; sh:hasValue "closed"^^xsd:string ] ;
+  sh:property [ sh:path m:fault ; sh:class m:ConfirmedFault ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:verification ; sh:class m:Verification ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:approvedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ; sh:lessThan m:completedAt ] ;
+  sh:property [ sh:path m:completedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ; sh:lessThan m:closedAt ] ;
+  sh:property [ sh:path m:closedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+m:VerificationShape a sh:NodeShape ;
+  sh:targetClass m:Verification ;
+  sh:property [ sh:path m:evidence ; sh:class m:QualifiedObservation ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path m:result ; sh:hasValue "pass"^^xsd:string ] .

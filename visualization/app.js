@@ -64,7 +64,7 @@
     renderEvidence();
   }
 
-  const panels = ["graph", "evidence", "sandbox"];
+  const panels = ["graph", "evidence", "sandbox", "pilot"];
   function showPanel(panel) {
     for (const id of panels) {
       const active = id === panel;
@@ -82,6 +82,11 @@
     ? requested : data.example.row;
   window.HydraulicApp = {
     data, element, displayValue, stability, showPanel,
+    showCycle: number => {
+      filter.value = "all";
+      applyFilter(number);
+      showPanel("evidence");
+    },
     current: () => snapshot(Number(cycle.value))
   };
   applyFilter(initial);

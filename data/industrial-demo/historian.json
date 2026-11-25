@@ -1,0 +1,11 @@
+[
+  {"id":"OBS-BEFORE","tag":"DEMO-HP01-PS1","at":"2026-11-19T09:00:00Z","cycle":611,"unit":"bar"},
+  {"id":"OBS-BEFORE-NO","tag":"DEMO-HP01-PS1","at":"2026-11-19T12:15:00Z","cycle":612,"unit":"bar"},
+  {"id":"OBS-BEFORE-OK","tag":"DEMO-HP01-PS1","at":"2026-11-19T12:30:00Z","cycle":1788,"unit":"bar"},
+  {"id":"OBS-SWAP","tag":"DEMO-HP01-PS1","at":"2026-11-20T08:00:00Z","cycle":611,"unit":"bar"},
+  {"id":"OBS-SWAP-OK","tag":"DEMO-HP01-PS1","at":"2026-11-20T13:00:00Z","cycle":1788,"unit":"bar"},
+  {"id":"OBS-UNSTABLE","tag":"DEMO-HP01-PS1","at":"2026-11-21T08:00:00Z","cycle":610,"unit":"bar"},
+  {"id":"OBS-UNIT","tag":"DEMO-HP01-PS1","at":"2026-11-21T09:00:00Z","cycle":611,"unit":"psi"},
+  {"id":"OBS-HISTORY","tag":"DEMO-HP01-PS1","at":"2026-11-22T07:30:00Z","cycle":611,"unit":"bar"},
+  {"id":"OBS-HISTORY-OK","tag":"DEMO-HP01-PS1","at":"2026-11-22T11:30:00Z","cycle":1788,"unit":"bar"}
+]

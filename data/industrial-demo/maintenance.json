@@ -1,0 +1,19 @@
+{
+  "asOf": "2026-11-25T00:00:00Z",
+  "rule": {"id": "PUMP-REPLAY-1", "version": "1.0", "name": "液压泵内泄漏回放规则", "labelCode": 2, "verificationCode": 0},
+  "cases": [
+    {"id":"AL-BEFORE","label":"换装前 · 可处理告警","position":"HP-01","at":"2026-11-19T09:00:00Z","observation":"OBS-BEFORE","retests":["OBS-BEFORE-NO","OBS-BEFORE-OK"]},
+    {"id":"AL-SWAP","label":"恰在换装时 · 新泵归属","position":"HP-01","at":"2026-11-20T08:00:00Z","observation":"OBS-SWAP","retests":["OBS-SWAP-OK"]},
+    {"id":"AL-UNSTABLE","label":"样本 610 · 工况可能未稳定","position":"HP-01","at":"2026-11-21T08:00:00Z","observation":"OBS-UNSTABLE","retests":[]},
+    {"id":"AL-UNIT","label":"单位不一致 · 待处理证据","position":"HP-01","at":"2026-11-21T09:00:00Z","observation":"OBS-UNIT","retests":[]},
+    {"id":"AL-MISSING","label":"测点缺失 · 待补证据","position":"HP-01","at":"2026-11-21T10:00:00Z","observation":null,"retests":[]},
+    {"id":"AL-HISTORY","label":"已结案 · 七天查询示例","position":"HP-01","at":"2026-11-22T07:30:00Z","observation":"OBS-HISTORY","retests":["OBS-HISTORY-OK"]}
+  ],
+  "history": [
+    {
+      "case": "AL-HISTORY", "confirmedAt": "2026-11-22T08:00:00Z", "reviewer": "demo.engineer",
+      "order": {"id":"WO-DEMO-001","approvedAt":"2026-11-22T08:30:00Z","completedAt":"2026-11-22T11:00:00Z","summary":"样例维护完成记录"},
+      "retest": "OBS-HISTORY-OK", "closedAt": "2026-11-22T11:45:00Z"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+@prefix m: <https://example.org/hydraulics/industrial#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+<https://example.org/hydraulics/industrial> a owl:Ontology ;
+    rdfs:label "液压设备健康与维修本体"@zh ;
+    owl:versionInfo "0.1.0" .
+
+m:Site a owl:Class ; rdfs:label "工厂"@zh .
+m:Area a owl:Class ; rdfs:label "区域"@zh .
+m:WorkCenter a owl:Class ; rdfs:label "工作中心"@zh .
+m:WorkUnit a owl:Class ; rdfs:label "工作单元"@zh .
+m:Position a owl:Class ; rdfs:label "设备安装位"@zh .
+m:Asset a owl:Class ; rdfs:label "实体资产"@zh .
+m:HydraulicPump a owl:Class ; rdfs:subClassOf m:Asset ; rdfs:label "液压泵"@zh .
+m:Installation a owl:Class ; rdfs:label "有效期安装记录"@zh .
+m:Tag a owl:Class ; rdfs:subClassOf sosa:Sensor ; rdfs:label "现场测点映射"@zh .
+m:ReplayObservation a owl:Class ; rdfs:subClassOf sosa:Observation ; rdfs:label "回放观测"@zh .
+m:QualifiedObservation a owl:Class ; rdfs:subClassOf m:ReplayObservation ; rdfs:label "通过质量检查的观测"@zh .
+m:RejectedObservation a owl:Class ; rdfs:subClassOf m:ReplayObservation ; rdfs:label "隔离的观测"@zh .
+m:QualifiedObservation owl:disjointWith m:RejectedObservation .
+m:Alarm a owl:Class ; rdfs:label "告警"@zh .
+m:ConfirmedFault a owl:Class ; rdfs:label "人工确认故障"@zh .
+m:FaultMode a owl:Class ; rdfs:label "故障模式"@zh .
+m:InternalPumpLeakage a m:FaultMode ; rdfs:label "液压泵内泄漏"@zh .
+m:WorkOrder a owl:Class ; rdfs:label "维修工单"@zh .
+m:ClosedWorkOrder a owl:Class ; rdfs:subClassOf m:WorkOrder ; rdfs:label "已结案工单"@zh .
+m:Verification a owl:Class ; rdfs:label "维修复测"@zh .
+m:Rule a owl:Class ; rdfs:label "版本化回放规则"@zh .
+
+m:parent a owl:ObjectProperty ; rdfs:label "生产层级上级"@zh .
+m:installation a owl:ObjectProperty ; rdfs:range m:Installation ; rdfs:label "发生时有效的安装记录"@zh .
+m:position a owl:ObjectProperty ; rdfs:range m:Position ; rdfs:label "关联安装位"@zh .
+m:asset a owl:ObjectProperty ; rdfs:range m:Asset ; rdfs:label "关联实体资产"@zh .
+m:originCycle a owl:ObjectProperty ; rdfs:domain m:ReplayObservation ; rdfs:label "UCI 实测周期"@zh .
+m:evidence a owl:ObjectProperty ; rdfs:range m:ReplayObservation ; rdfs:label "观测证据"@zh .
+m:alarm a owl:ObjectProperty ; rdfs:domain m:ConfirmedFault ; rdfs:range m:Alarm .
+m:faultMode a owl:ObjectProperty ; rdfs:domain m:ConfirmedFault ; rdfs:range m:FaultMode .
+m:fault a owl:ObjectProperty ; rdfs:domain m:WorkOrder ; rdfs:range m:ConfirmedFault .
+m:verification a owl:ObjectProperty ; rdfs:domain m:WorkOrder ; rdfs:range m:Verification .
+m:rule a owl:ObjectProperty ; rdfs:range m:Rule .
+
+m:validFrom a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+m:validUntil a owl:DatatypeProperty ; rdfs:range xsd:dateTime ;
+    rdfs:comment "右端不含的有效期截止时刻，缺省表示仍有效。"@zh .
+m:scenarioTime a owl:DatatypeProperty ; rdfs:range xsd:dateTime ;
+    rdfs:comment "企业回放场景的模拟时间，UCI 只提供原始周期行号。"@zh .
+m:rowNumber a owl:DatatypeProperty ; rdfs:range xsd:integer .
+m:expectedUnit a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:reportedUnit a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:reading a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+m:quality a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:pumpCode a owl:DatatypeProperty ; rdfs:range xsd:integer .
+m:status a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:confirmedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+m:reviewer a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:approvedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+m:completedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+m:closedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+m:result a owl:DatatypeProperty ; rdfs:range xsd:string .

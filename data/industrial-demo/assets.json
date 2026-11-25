@@ -1,0 +1,15 @@
+{
+  "plant": {"id": "DEMO-SITE", "name": "演示工厂", "area": "成形车间", "center": "成形线 1", "unit": "液压工位 1"},
+  "position": {"id": "HP-01", "name": "液压站 1 · 主泵安装位"},
+  "assets": [
+    {"id": "P-100", "name": "液压泵 P-100", "type": "HydraulicPump"},
+    {"id": "P-200", "name": "液压泵 P-200", "type": "HydraulicPump"}
+  ],
+  "installations": [
+    {"id": "INSTALL-100", "position": "HP-01", "asset": "P-100", "from": "2026-11-01T00:00:00Z", "until": "2026-11-20T08:00:00Z"},
+    {"id": "INSTALL-200", "position": "HP-01", "asset": "P-200", "from": "2026-11-20T08:00:00Z", "until": null}
+  ],
+  "tags": [
+    {"id": "DEMO-HP01-PS1", "label": "演示压力测点", "position": "HP-01", "channel": "PS1", "property": "Pressure", "unit": "bar"}
+  ]
+}

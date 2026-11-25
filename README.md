@@ -20,10 +20,18 @@
 
 [![第 610 周期暂缓维护与液压泵优先方案对比](docs/images/sandbox.png)](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?cycle=610&view=sandbox)
 
+## 液压站维修闭环
+
+[打开工业回放](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?view=pilot) · [数据契约、业务流程与验收](docs/industrial-pilot.md)
+
+从真实 UCI 周期追溯测量证据，在合成工厂样例中验证设备换装、工况校验、工单审批和复测结案。维修闭环提供六个案例，含三个异常数据案例及一条已结案历史基准。真实试验事实和合成场景的边界见说明。
+
+[![液压站维修闭环回放](docs/images/pilot.png)](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?view=pilot)
+
 ## 在 VS Code 里打开
 
 1. 打开 [hydraulic-equipment-ontology.code-workspace](hydraulic-equipment-ontology.code-workspace)，或者在 VS Code 里选择 **文件 → 打开文件夹**，选中本项目目录。
-2. 用浏览器打开 [visualization/index.html](visualization/index.html)。页面可离线使用，可切换「关系图谱」「周期与证据」和「OntoOS 试算」。
+2. 用浏览器打开 [visualization/index.html](visualization/index.html)。页面可离线使用，可切换「关系图谱」「周期与证据」「OntoOS 试算」和「维修闭环」。
 3. 如果希望在 VS Code 内查看页面，在项目终端运行 `python3 -m http.server 8765 --bind 127.0.0.1 --directory visualization`，再用命令面板的 **Simple Browser: Show** 打开 `http://127.0.0.1:8765/`。Windows 按本地 Python 安装情况将 `python3` 改为 `python` 或 `py -3`。
 
 ## 项目目录
@@ -34,6 +42,7 @@
 | [model/ontology.ttl](model/ontology.ttl) | OWL 类、对象关系、属性和来源 |
 | [model/instances.ttl](model/instances.ttl) | 165,542 条 RDF 实例三元组，覆盖全部试验周期、17 个通道元数据和 4 个通道的摘要 |
 | [model/shapes.ttl](model/shapes.ttl) | SHACL 约束，校验关联数量、字段类型和必填项 |
+| [model/industrial/](model/industrial/) | 工业扩展的 OWL 本体、SHACL 和回放实例 |
 | [model/validation.txt](model/validation.txt) | 校验结果和上游原始数据 SHA-256 |
 | [queries/](queries/) | 3 条可直接对实例运行的 SPARQL 查询 |
 | [visualization/](visualization/) | 离线关系图、周期证据、维护试算及其源文件 |

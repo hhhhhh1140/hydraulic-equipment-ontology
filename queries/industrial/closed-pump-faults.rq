@@ -1,0 +1,20 @@
+# 回放截止时刻 2026-11-25 00:00 UTC，范围为此前七天（含起点、含截止时刻）。
+# 运行范围是 model/industrial/replay.ttl，时间由样例定义，与实际工厂时钟无关。
+PREFIX m: <https://example.org/hydraulics/industrial#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+SELECT ?asset ?tag ?faultRow ?source ?order ?retestRow ?result ?confirmedAt WHERE {
+  BIND(COALESCE(?windowStart, "2026-11-18T00:00:00Z"^^xsd:dateTime) AS ?start)
+  BIND(COALESCE(?windowEnd, "2026-11-25T00:00:00Z"^^xsd:dateTime) AS ?end)
+  ?fault a m:ConfirmedFault ; m:faultMode m:InternalPumpLeakage ; m:alarm ?alarm ; m:installation ?installation ; m:confirmedAt ?confirmedAt .
+  ?installation m:asset ?asset .
+  ?asset a m:HydraulicPump .
+  ?alarm m:evidence ?observation .
+  ?observation a m:QualifiedObservation ; sosa:madeBySensor ?tag ; m:rowNumber ?faultRow ; prov:wasDerivedFrom ?source .
+  ?order m:fault ?fault ; m:verification ?verification ; m:closedAt ?closedAt .
+  ?verification m:evidence ?retest ; m:result ?result .
+  ?retest m:rowNumber ?retestRow ; m:installation ?installation .
+  FILTER(?confirmedAt >= ?start && ?confirmedAt <= ?end && ?closedAt <= ?end)
+}
+ORDER BY DESC(?confirmedAt)

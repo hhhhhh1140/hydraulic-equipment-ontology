@@ -373,6 +373,8 @@ def main():
     ])
     (model_dir / "validation.txt").write_text(report, encoding="utf-8")
     print(report)
+    from build_industrial import main as build_industrial
+    build_industrial(checked)
 
 
 if __name__ == "__main__":

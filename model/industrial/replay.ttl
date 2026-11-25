@@ -1,0 +1,311 @@
+@prefix m: <https://example.org/hydraulics/industrial#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix uci: <https://example.org/hydraulics/uci447#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+m:AL-BEFORE a m:Alarm ;
+    rdfs:label "换装前 · 可处理告警"@zh ;
+    m:evidence m:OBS-BEFORE ;
+    m:installation m:INSTALL-100 ;
+    m:position m:HP-01 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 ;
+    m:scenarioTime "2026-11-19T09:00:00+00:00"^^xsd:dateTime ;
+    m:status "open"^^xsd:string .
+
+m:AL-MISSING a m:Alarm ;
+    rdfs:label "测点缺失 · 待补证据"@zh ;
+    m:installation m:INSTALL-200 ;
+    m:position m:HP-01 ;
+    m:quality "NO_SIGNAL"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 ;
+    m:scenarioTime "2026-11-21T10:00:00+00:00"^^xsd:dateTime ;
+    m:status "open"^^xsd:string .
+
+m:AL-SWAP a m:Alarm ;
+    rdfs:label "恰在换装时 · 新泵归属"@zh ;
+    m:evidence m:OBS-SWAP ;
+    m:installation m:INSTALL-200 ;
+    m:position m:HP-01 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 ;
+    m:scenarioTime "2026-11-20T08:00:00+00:00"^^xsd:dateTime ;
+    m:status "open"^^xsd:string .
+
+m:AL-UNIT a m:Alarm ;
+    rdfs:label "单位不一致 · 待处理证据"@zh ;
+    m:evidence m:OBS-UNIT ;
+    m:installation m:INSTALL-200 ;
+    m:position m:HP-01 ;
+    m:quality "UNIT_MISMATCH"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 ;
+    m:scenarioTime "2026-11-21T09:00:00+00:00"^^xsd:dateTime ;
+    m:status "open"^^xsd:string .
+
+m:AL-UNSTABLE a m:Alarm ;
+    rdfs:label "样本 610 · 工况可能未稳定"@zh ;
+    m:evidence m:OBS-UNSTABLE ;
+    m:installation m:INSTALL-200 ;
+    m:position m:HP-01 ;
+    m:quality "UNSTABLE"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 ;
+    m:scenarioTime "2026-11-21T08:00:00+00:00"^^xsd:dateTime ;
+    m:status "open"^^xsd:string .
+
+m:OBS-BEFORE-NO a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle0612-PS1 ;
+    sosa:hasFeatureOfInterest m:P-100 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-100 ;
+    m:originCycle uci:Cycle0612 ;
+    m:position m:HP-01 ;
+    m:pumpCode 2 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 173.0603 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 612 ;
+    m:scenarioTime "2026-11-19T12:15:00+00:00"^^xsd:dateTime .
+
+m:OBS-BEFORE-OK a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle1788-PS1 ;
+    sosa:hasFeatureOfInterest m:P-100 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-100 ;
+    m:originCycle uci:Cycle1788 ;
+    m:position m:HP-01 ;
+    m:pumpCode 0 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 161.0110 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 1788 ;
+    m:scenarioTime "2026-11-19T12:30:00+00:00"^^xsd:dateTime .
+
+m:OBS-SWAP-OK a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle1788-PS1 ;
+    sosa:hasFeatureOfInterest m:P-200 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-200 ;
+    m:originCycle uci:Cycle1788 ;
+    m:position m:HP-01 ;
+    m:pumpCode 0 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 161.0110 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 1788 ;
+    m:scenarioTime "2026-11-20T13:00:00+00:00"^^xsd:dateTime .
+
+m:WO-DEMO-001 a m:ClosedWorkOrder,
+        m:WorkOrder ;
+    rdfs:label "样例维护完成记录"@zh ;
+    m:approvedAt "2026-11-22T08:30:00+00:00"^^xsd:dateTime ;
+    m:closedAt "2026-11-22T11:45:00+00:00"^^xsd:dateTime ;
+    m:completedAt "2026-11-22T11:00:00+00:00"^^xsd:dateTime ;
+    m:fault m:AL-HISTORY-FAULT ;
+    m:installation m:INSTALL-200 ;
+    m:status "closed"^^xsd:string ;
+    m:verification m:WO-DEMO-001-VERIFY .
+
+m:AL-HISTORY a m:Alarm ;
+    rdfs:label "已结案 · 七天查询示例"@zh ;
+    m:evidence m:OBS-HISTORY ;
+    m:installation m:INSTALL-200 ;
+    m:position m:HP-01 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 ;
+    m:scenarioTime "2026-11-22T07:30:00+00:00"^^xsd:dateTime ;
+    m:status "closed"^^xsd:string .
+
+m:AL-HISTORY-FAULT a m:ConfirmedFault ;
+    rdfs:label "液压泵内泄漏"@zh ;
+    m:alarm m:AL-HISTORY ;
+    m:confirmedAt "2026-11-22T08:00:00+00:00"^^xsd:dateTime ;
+    m:faultMode m:InternalPumpLeakage ;
+    m:installation m:INSTALL-200 ;
+    m:reviewer "demo.engineer"^^xsd:string ;
+    m:rule m:PUMP-REPLAY-1 .
+
+m:DEMO-SITE a m:Site ;
+    rdfs:label "演示工厂"@zh .
+
+m:DEMO-SITE-Area a m:Area ;
+    rdfs:label "成形车间"@zh ;
+    m:parent m:DEMO-SITE .
+
+m:DEMO-SITE-WorkCenter a m:WorkCenter ;
+    rdfs:label "成形线 1"@zh ;
+    m:parent m:DEMO-SITE-Area .
+
+m:DEMO-SITE-WorkUnit a m:WorkUnit ;
+    rdfs:label "液压工位 1"@zh ;
+    m:parent m:DEMO-SITE-WorkCenter .
+
+m:InternalPumpLeakage a m:FaultMode ;
+    rdfs:label "液压泵内泄漏"@zh .
+
+m:OBS-BEFORE a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle0611-PS1 ;
+    sosa:hasFeatureOfInterest m:P-100 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-100 ;
+    m:originCycle uci:Cycle0611 ;
+    m:position m:HP-01 ;
+    m:pumpCode 2 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 173.0917 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 611 ;
+    m:scenarioTime "2026-11-19T09:00:00+00:00"^^xsd:dateTime .
+
+m:OBS-HISTORY a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle0611-PS1 ;
+    sosa:hasFeatureOfInterest m:P-200 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-200 ;
+    m:originCycle uci:Cycle0611 ;
+    m:position m:HP-01 ;
+    m:pumpCode 2 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 173.0917 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 611 ;
+    m:scenarioTime "2026-11-22T07:30:00+00:00"^^xsd:dateTime .
+
+m:OBS-HISTORY-OK a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle1788-PS1 ;
+    sosa:hasFeatureOfInterest m:P-200 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-200 ;
+    m:originCycle uci:Cycle1788 ;
+    m:position m:HP-01 ;
+    m:pumpCode 0 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 161.0110 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 1788 ;
+    m:scenarioTime "2026-11-22T11:30:00+00:00"^^xsd:dateTime .
+
+m:OBS-SWAP a sosa:Observation,
+        m:QualifiedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle0611-PS1 ;
+    sosa:hasFeatureOfInterest m:P-200 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-200 ;
+    m:originCycle uci:Cycle0611 ;
+    m:position m:HP-01 ;
+    m:pumpCode 2 ;
+    m:quality "QUALIFIED"^^xsd:string ;
+    m:reading 173.0917 ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 611 ;
+    m:scenarioTime "2026-11-20T08:00:00+00:00"^^xsd:dateTime .
+
+m:OBS-UNIT a sosa:Observation,
+        m:RejectedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle0611-PS1 ;
+    sosa:hasFeatureOfInterest m:P-200 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-200 ;
+    m:originCycle uci:Cycle0611 ;
+    m:position m:HP-01 ;
+    m:quality "UNIT_MISMATCH"^^xsd:string ;
+    m:reportedUnit "psi"^^xsd:string ;
+    m:rowNumber 611 ;
+    m:scenarioTime "2026-11-21T09:00:00+00:00"^^xsd:dateTime .
+
+m:OBS-UNSTABLE a sosa:Observation,
+        m:RejectedObservation,
+        m:ReplayObservation ;
+    rdfs:seeAlso <https://doi.org/10.24432/C5CW21> ;
+    prov:wasDerivedFrom uci:Cycle0610-PS1 ;
+    sosa:hasFeatureOfInterest m:P-200 ;
+    sosa:madeBySensor m:DEMO-HP01-PS1 ;
+    sosa:observedProperty m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:installation m:INSTALL-200 ;
+    m:originCycle uci:Cycle0610 ;
+    m:position m:HP-01 ;
+    m:quality "UNSTABLE"^^xsd:string ;
+    m:reportedUnit "bar"^^xsd:string ;
+    m:rowNumber 610 ;
+    m:scenarioTime "2026-11-21T08:00:00+00:00"^^xsd:dateTime .
+
+m:WO-DEMO-001-VERIFY a m:Verification ;
+    m:evidence m:OBS-HISTORY-OK ;
+    m:result "pass"^^xsd:string .
+
+m:INSTALL-100 a m:Installation ;
+    m:asset m:P-100 ;
+    m:position m:HP-01 ;
+    m:validFrom "2026-11-01T00:00:00+00:00"^^xsd:dateTime ;
+    m:validUntil "2026-11-20T08:00:00+00:00"^^xsd:dateTime .
+
+m:P-100 a m:Asset,
+        m:HydraulicPump ;
+    rdfs:label "液压泵 P-100"@zh .
+
+m:P-200 a m:Asset,
+        m:HydraulicPump ;
+    rdfs:label "液压泵 P-200"@zh .
+
+m:PUMP-REPLAY-1 a m:Rule ;
+    rdfs:label "液压泵内泄漏回放规则"@zh ;
+    owl:versionInfo "1.0" .
+
+m:DEMO-HP01-PS1 a sosa:Sensor,
+        m:Tag ;
+    rdfs:label "演示压力测点"@zh ;
+    sosa:observes m:Pressure ;
+    m:expectedUnit "bar"^^xsd:string ;
+    m:position m:HP-01 .
+
+m:Pressure a sosa:ObservableProperty .
+
+m:INSTALL-200 a m:Installation ;
+    m:asset m:P-200 ;
+    m:position m:HP-01 ;
+    m:validFrom "2026-11-20T08:00:00+00:00"^^xsd:dateTime .
+
+m:HP-01 a m:Position ;
+    rdfs:label "液压站 1 · 主泵安装位"@zh ;
+    m:parent m:DEMO-SITE-WorkUnit .

@@ -75,3 +75,12 @@ summary {cursor:pointer}
   .sidebar{grid-row:2;overflow:visible;border-top:1px solid var(--border);border-right:0}
   .plan-grid{grid-template-columns:1fr}
 }
+
+.pilot-case {width:min(100%,27rem)}
+.pilot-facts {margin:5px 0;display:grid;grid-template-columns:minmax(80px,auto) 1fr;column-gap:.8rem;row-gap:.24rem}
+.pilot-facts dd {margin:0;overflow-wrap:anywhere}
+.pilot h4 {margin:4px 0 0}
+.pilot-log {margin:0;padding-left:1.2rem;overflow-wrap:anywhere}
+.pilot .panel button {justify-self:start}
+.pilot details .table {font-size:12px}
+.pilot #pilot-message:empty {display:none}
