@@ -303,6 +303,7 @@ def main(uci=None):
     rows = query_closed(g, data["asOf"])
     (MODEL / "replay.ttl").write_text(g.serialize(format="turtle").rstrip() + "\n", encoding="utf-8")
     data["closedQuery"] = rows
+    (MODEL / "replay.json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", r"\u003c")
     (ROOT / "visualization/pilot-data.js").write_text("window.HydraulicPilotData = " + payload + ";\n", encoding="utf-8")
     print(f"工业回放校验通过：{len(g)} 条三元组、{len(data['cases'])} 个案例、{len(rows)} 条七天已结案查询结果")

@@ -1,0 +1,16 @@
+.credentials,.case-controls {display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px}
+.credentials input {border:1px solid var(--border);padding:6px 10px;border-radius:7px;min-height:34px}
+.credentials .field {width:min(21rem,100%)}
+#notice:empty {display:none}
+#workspace {display:grid;gap:15px}
+#workspace .plan-grid article {align-content:start}
+.workbench dl {display:grid;grid-template-columns:auto 1fr;gap:5px 11px;margin:0}
+.workbench dd {margin:0;overflow-wrap:anywhere}
+.workbench dt {color:var(--muted)}
+#action form {display:grid;gap:7px;justify-items:start}
+.workbench .table {font-size:13px}
+@media(max-width:520px) {
+  .workbench .table {font-size:11px;table-layout:fixed}
+  .workbench .table th,.workbench .table td {padding:5px 3px}
+  .workbench .table th:first-child {width:37%}
+}

@@ -1,0 +1,387 @@
+{
+  "plant": {
+    "id": "DEMO-SITE",
+    "name": "演示工厂",
+    "area": "成形车间",
+    "center": "成形线 1",
+    "unit": "液压工位 1"
+  },
+  "position": {
+    "id": "HP-01",
+    "name": "液压站 1 · 主泵安装位"
+  },
+  "assets": {
+    "P-100": {
+      "id": "P-100",
+      "name": "液压泵 P-100",
+      "type": "HydraulicPump"
+    },
+    "P-200": {
+      "id": "P-200",
+      "name": "液压泵 P-200",
+      "type": "HydraulicPump"
+    }
+  },
+  "installations": [
+    {
+      "id": "INSTALL-100",
+      "position": "HP-01",
+      "asset": "P-100",
+      "from": "2026-11-01T00:00:00Z",
+      "until": "2026-11-20T08:00:00Z"
+    },
+    {
+      "id": "INSTALL-200",
+      "position": "HP-01",
+      "asset": "P-200",
+      "from": "2026-11-20T08:00:00Z",
+      "until": null
+    }
+  ],
+  "tags": {
+    "DEMO-HP01-PS1": {
+      "id": "DEMO-HP01-PS1",
+      "label": "演示压力测点",
+      "position": "HP-01",
+      "channel": "PS1",
+      "property": "Pressure",
+      "unit": "bar"
+    }
+  },
+  "rule": {
+    "id": "PUMP-REPLAY-1",
+    "version": "1.0",
+    "name": "液压泵内泄漏回放规则",
+    "labelCode": 2,
+    "verificationCode": 0
+  },
+  "cases": [
+    {
+      "id": "AL-BEFORE",
+      "label": "换装前 · 可处理告警",
+      "position": "HP-01",
+      "at": "2026-11-19T09:00:00Z",
+      "observation": {
+        "id": "OBS-BEFORE",
+        "tag": "DEMO-HP01-PS1",
+        "at": "2026-11-19T09:00:00Z",
+        "cycle": 611,
+        "unit": "bar",
+        "tagLabel": "演示压力测点",
+        "position": "HP-01",
+        "installation": "INSTALL-100",
+        "asset": "P-100",
+        "expectedUnit": "bar",
+        "quality": "QUALIFIED",
+        "message": "证据通过校验",
+        "uci": {
+          "cycle": 611,
+          "cycleIri": "https://example.org/hydraulics/uci447#Cycle0611",
+          "summaryIri": "https://example.org/hydraulics/uci447#Cycle0611-PS1",
+          "flag": 0,
+          "pumpCode": 2,
+          "mean": "173.0917",
+          "sourceUnit": "bar",
+          "file": "PS1.txt",
+          "row": 611
+        }
+      },
+      "retests": [
+        {
+          "id": "OBS-BEFORE-NO",
+          "tag": "DEMO-HP01-PS1",
+          "at": "2026-11-19T12:15:00Z",
+          "cycle": 612,
+          "unit": "bar",
+          "tagLabel": "演示压力测点",
+          "position": "HP-01",
+          "installation": "INSTALL-100",
+          "asset": "P-100",
+          "expectedUnit": "bar",
+          "quality": "QUALIFIED",
+          "message": "证据通过校验",
+          "uci": {
+            "cycle": 612,
+            "cycleIri": "https://example.org/hydraulics/uci447#Cycle0612",
+            "summaryIri": "https://example.org/hydraulics/uci447#Cycle0612-PS1",
+            "flag": 0,
+            "pumpCode": 2,
+            "mean": "173.0603",
+            "sourceUnit": "bar",
+            "file": "PS1.txt",
+            "row": 612
+          }
+        },
+        {
+          "id": "OBS-BEFORE-OK",
+          "tag": "DEMO-HP01-PS1",
+          "at": "2026-11-19T12:30:00Z",
+          "cycle": 1788,
+          "unit": "bar",
+          "tagLabel": "演示压力测点",
+          "position": "HP-01",
+          "installation": "INSTALL-100",
+          "asset": "P-100",
+          "expectedUnit": "bar",
+          "quality": "QUALIFIED",
+          "message": "证据通过校验",
+          "uci": {
+            "cycle": 1788,
+            "cycleIri": "https://example.org/hydraulics/uci447#Cycle1788",
+            "summaryIri": "https://example.org/hydraulics/uci447#Cycle1788-PS1",
+            "flag": 0,
+            "pumpCode": 0,
+            "mean": "161.0110",
+            "sourceUnit": "bar",
+            "file": "PS1.txt",
+            "row": 1788
+          }
+        }
+      ],
+      "history": null,
+      "quality": "QUALIFIED",
+      "message": "证据通过校验",
+      "installation": "INSTALL-100",
+      "asset": "P-100"
+    },
+    {
+      "id": "AL-SWAP",
+      "label": "恰在换装时 · 新泵归属",
+      "position": "HP-01",
+      "at": "2026-11-20T08:00:00Z",
+      "observation": {
+        "id": "OBS-SWAP",
+        "tag": "DEMO-HP01-PS1",
+        "at": "2026-11-20T08:00:00Z",
+        "cycle": 611,
+        "unit": "bar",
+        "tagLabel": "演示压力测点",
+        "position": "HP-01",
+        "installation": "INSTALL-200",
+        "asset": "P-200",
+        "expectedUnit": "bar",
+        "quality": "QUALIFIED",
+        "message": "证据通过校验",
+        "uci": {
+          "cycle": 611,
+          "cycleIri": "https://example.org/hydraulics/uci447#Cycle0611",
+          "summaryIri": "https://example.org/hydraulics/uci447#Cycle0611-PS1",
+          "flag": 0,
+          "pumpCode": 2,
+          "mean": "173.0917",
+          "sourceUnit": "bar",
+          "file": "PS1.txt",
+          "row": 611
+        }
+      },
+      "retests": [
+        {
+          "id": "OBS-SWAP-OK",
+          "tag": "DEMO-HP01-PS1",
+          "at": "2026-11-20T13:00:00Z",
+          "cycle": 1788,
+          "unit": "bar",
+          "tagLabel": "演示压力测点",
+          "position": "HP-01",
+          "installation": "INSTALL-200",
+          "asset": "P-200",
+          "expectedUnit": "bar",
+          "quality": "QUALIFIED",
+          "message": "证据通过校验",
+          "uci": {
+            "cycle": 1788,
+            "cycleIri": "https://example.org/hydraulics/uci447#Cycle1788",
+            "summaryIri": "https://example.org/hydraulics/uci447#Cycle1788-PS1",
+            "flag": 0,
+            "pumpCode": 0,
+            "mean": "161.0110",
+            "sourceUnit": "bar",
+            "file": "PS1.txt",
+            "row": 1788
+          }
+        }
+      ],
+      "history": null,
+      "quality": "QUALIFIED",
+      "message": "证据通过校验",
+      "installation": "INSTALL-200",
+      "asset": "P-200"
+    },
+    {
+      "id": "AL-UNSTABLE",
+      "label": "样本 610 · 工况可能未稳定",
+      "position": "HP-01",
+      "at": "2026-11-21T08:00:00Z",
+      "observation": {
+        "id": "OBS-UNSTABLE",
+        "tag": "DEMO-HP01-PS1",
+        "at": "2026-11-21T08:00:00Z",
+        "cycle": 610,
+        "unit": "bar",
+        "tagLabel": "演示压力测点",
+        "position": "HP-01",
+        "installation": "INSTALL-200",
+        "asset": "P-200",
+        "expectedUnit": "bar",
+        "quality": "UNSTABLE",
+        "message": "UCI 标签提示工况可能尚未稳定",
+        "uci": {
+          "cycle": 610,
+          "cycleIri": "https://example.org/hydraulics/uci447#Cycle0610",
+          "summaryIri": "https://example.org/hydraulics/uci447#Cycle0610-PS1",
+          "flag": 1,
+          "pumpCode": 2,
+          "mean": "172.8785",
+          "sourceUnit": "bar",
+          "file": "PS1.txt",
+          "row": 610
+        }
+      },
+      "retests": [],
+      "history": null,
+      "quality": "UNSTABLE",
+      "message": "UCI 标签提示工况可能尚未稳定",
+      "installation": "INSTALL-200",
+      "asset": "P-200"
+    },
+    {
+      "id": "AL-UNIT",
+      "label": "单位不一致 · 待处理证据",
+      "position": "HP-01",
+      "at": "2026-11-21T09:00:00Z",
+      "observation": {
+        "id": "OBS-UNIT",
+        "tag": "DEMO-HP01-PS1",
+        "at": "2026-11-21T09:00:00Z",
+        "cycle": 611,
+        "unit": "psi",
+        "tagLabel": "演示压力测点",
+        "position": "HP-01",
+        "installation": "INSTALL-200",
+        "asset": "P-200",
+        "expectedUnit": "bar",
+        "quality": "UNIT_MISMATCH",
+        "message": "上报单位与测点契约或 UCI 源单位不一致",
+        "uci": {
+          "cycle": 611,
+          "cycleIri": "https://example.org/hydraulics/uci447#Cycle0611",
+          "summaryIri": "https://example.org/hydraulics/uci447#Cycle0611-PS1",
+          "flag": 0,
+          "pumpCode": 2,
+          "mean": "173.0917",
+          "sourceUnit": "bar",
+          "file": "PS1.txt",
+          "row": 611
+        }
+      },
+      "retests": [],
+      "history": null,
+      "quality": "UNIT_MISMATCH",
+      "message": "上报单位与测点契约或 UCI 源单位不一致",
+      "installation": "INSTALL-200",
+      "asset": "P-200"
+    },
+    {
+      "id": "AL-MISSING",
+      "label": "测点缺失 · 待补证据",
+      "position": "HP-01",
+      "at": "2026-11-21T10:00:00Z",
+      "observation": null,
+      "retests": [],
+      "history": null,
+      "quality": "NO_SIGNAL",
+      "message": "缺少测点记录或没有可对齐的 UCI 信号",
+      "installation": "INSTALL-200",
+      "asset": "P-200"
+    },
+    {
+      "id": "AL-HISTORY",
+      "label": "已结案 · 七天查询示例",
+      "position": "HP-01",
+      "at": "2026-11-22T07:30:00Z",
+      "observation": {
+        "id": "OBS-HISTORY",
+        "tag": "DEMO-HP01-PS1",
+        "at": "2026-11-22T07:30:00Z",
+        "cycle": 611,
+        "unit": "bar",
+        "tagLabel": "演示压力测点",
+        "position": "HP-01",
+        "installation": "INSTALL-200",
+        "asset": "P-200",
+        "expectedUnit": "bar",
+        "quality": "QUALIFIED",
+        "message": "证据通过校验",
+        "uci": {
+          "cycle": 611,
+          "cycleIri": "https://example.org/hydraulics/uci447#Cycle0611",
+          "summaryIri": "https://example.org/hydraulics/uci447#Cycle0611-PS1",
+          "flag": 0,
+          "pumpCode": 2,
+          "mean": "173.0917",
+          "sourceUnit": "bar",
+          "file": "PS1.txt",
+          "row": 611
+        }
+      },
+      "retests": [
+        {
+          "id": "OBS-HISTORY-OK",
+          "tag": "DEMO-HP01-PS1",
+          "at": "2026-11-22T11:30:00Z",
+          "cycle": 1788,
+          "unit": "bar",
+          "tagLabel": "演示压力测点",
+          "position": "HP-01",
+          "installation": "INSTALL-200",
+          "asset": "P-200",
+          "expectedUnit": "bar",
+          "quality": "QUALIFIED",
+          "message": "证据通过校验",
+          "uci": {
+            "cycle": 1788,
+            "cycleIri": "https://example.org/hydraulics/uci447#Cycle1788",
+            "summaryIri": "https://example.org/hydraulics/uci447#Cycle1788-PS1",
+            "flag": 0,
+            "pumpCode": 0,
+            "mean": "161.0110",
+            "sourceUnit": "bar",
+            "file": "PS1.txt",
+            "row": 1788
+          }
+        }
+      ],
+      "history": {
+        "case": "AL-HISTORY",
+        "confirmedAt": "2026-11-22T08:00:00Z",
+        "reviewer": "demo.engineer",
+        "order": {
+          "id": "WO-DEMO-001",
+          "approvedAt": "2026-11-22T08:30:00Z",
+          "completedAt": "2026-11-22T11:00:00Z",
+          "summary": "样例维护完成记录"
+        },
+        "retest": "OBS-HISTORY-OK",
+        "closedAt": "2026-11-22T11:45:00Z"
+      },
+      "quality": "QUALIFIED",
+      "message": "证据通过校验",
+      "installation": "INSTALL-200",
+      "asset": "P-200"
+    }
+  ],
+  "asOf": "2026-11-25T00:00:00Z",
+  "source": "https://doi.org/10.24432/C5CW21",
+  "closedQuery": [
+    [
+      "https://example.org/hydraulics/industrial#P-200",
+      "https://example.org/hydraulics/industrial#DEMO-HP01-PS1",
+      "611",
+      "https://example.org/hydraulics/uci447#Cycle0611-PS1",
+      "https://example.org/hydraulics/industrial#WO-DEMO-001",
+      "1788",
+      "pass",
+      "2026-11-22T08:00:00+00:00"
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>液压站维修工作台</title>
+<link rel="stylesheet" href="/common.css">
+<link rel="stylesheet" href="/workbench.css">
+<script defer src="/workbench.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <h1>液压站维修工作台</h1>
+  <p id="session-identity" class="muted">未登录</p>
+</header>
+<main class="content workbench">
+  <p class="muted">本地服务端回放。测点证据来自 UCI，资产、工单及场景时刻为演示数据。</p>
+  <form id="login" class="panel credentials">
+    <label class="field">角色密钥
+      <input id="token" type="password" autocomplete="off" required placeholder="本地凭据文件中的 token">
+    </label>
+    <button type="submit" class="primary">登录或切换角色</button>
+  </form>
+  <p id="notice" role="status"></p>
+  <section id="workspace" hidden>
+    <p id="plant" class="muted"></p>
+    <div class="case-controls">
+      <label class="field">维修案例<select id="case"></select></label>
+      <button type="button" id="refresh">刷新工单</button>
+    </div>
+    <div class="plan-grid">
+      <article class="panel">
+        <h2>告警与证据</h2>
+        <dl id="evidence"></dl>
+      </article>
+      <article class="panel">
+        <h2 id="stage" aria-live="polite">工单状态</h2>
+        <p id="order" class="muted"></p>
+        <div id="action"></div>
+      </article>
+    </div>
+    <section aria-labelledby="audit-title">
+      <h2 id="audit-title">审计记录</h2>
+      <p class="muted small">场景时刻用于回放排序，入库时刻由本地服务记录。</p>
+      <table class="table">
+        <thead><tr><th>操作与结果</th><th>记录身份</th><th>场景时刻</th><th>入库时刻</th></tr></thead>
+        <tbody id="audit"></tbody>
+      </table>
+    </section>
+  </section>
+</main>
+</body>
+</html>

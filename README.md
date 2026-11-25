@@ -28,6 +28,10 @@
 
 [![液压站维修闭环回放](docs/images/pilot.png)](https://hhhhhh1140.github.io/hydraulic-equipment-ontology/?view=pilot)
 
+## 本地服务端工作台
+
+[启动与角色操作说明](docs/maintenance-service.md)。在项目根目录运行 `node service/server.cjs`，打开 [本机工作台](http://127.0.0.1:8766/)。工程师、审批人和维修人员各用本地生成的密钥登录，工单动作在服务端校验，写入 SQLite 并保留审计。项目中已附回放快照。
+
 ## 在 VS Code 里打开
 
 1. 打开 [hydraulic-equipment-ontology.code-workspace](hydraulic-equipment-ontology.code-workspace)，或者在 VS Code 里选择 **文件 → 打开文件夹**，选中本项目目录。

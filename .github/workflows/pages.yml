@@ -10,6 +10,7 @@ on:
       - 'queries/industrial/**'
       - 'scripts/build_industrial.py'
       - 'tests/**'
+      - 'service/**'
       - 'requirements.txt'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -28,12 +29,16 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
       - name: Verify pilot data and workflow
         run: |
           python3 -m venv .validation
           .validation/bin/python -m pip install -r requirements.txt
           .validation/bin/python scripts/build_industrial.py
-          git diff --exit-code -- model/industrial/replay.ttl visualization/pilot-data.js
+          git diff --exit-code -- model/industrial/replay.ttl model/industrial/replay.json visualization/pilot-data.js
           .validation/bin/python -m unittest discover -s tests -p 'test_industrial.py'
           node --test tests/*.test.cjs
       - name: Stage demo assets
