@@ -60,3 +60,15 @@ m:approvedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
 m:completedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
 m:closedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
 m:result a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+m:FieldObservation a owl:Class ; rdfs:subClassOf sosa:Observation ; rdfs:label "现场导入观测"@zh .
+m:FieldAlarm a owl:Class ; rdfs:label "现场导入告警"@zh .
+m:VerifiedFieldOrder a owl:Class ; rdfs:subClassOf m:WorkOrder ; rdfs:label "通过证据核验的导入结案工单"@zh .
+m:relatedAlarm a owl:ObjectProperty ; rdfs:range m:FieldAlarm .
+m:retestObservation a owl:ObjectProperty ; rdfs:range m:FieldObservation .
+m:observedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+m:standardUnit a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:reportedValue a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:sourceRow a owl:DatatypeProperty ; rdfs:range xsd:integer .
+m:sha256 a owl:DatatypeProperty ; rdfs:range xsd:string .
+m:fieldFaultCode a owl:DatatypeProperty ; rdfs:range xsd:string .

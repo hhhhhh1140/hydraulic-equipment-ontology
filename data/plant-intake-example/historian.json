@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "measurements": [
+    {"id":"M-OLD","tag":"PRESS-A","at":"2026-11-20T15:59:57+08:00","value":17.3,"unit":"MPa","quantity":"gaugePressure","quality":"good"},
+    {"id":"M-NEW","tag":"PRESS-A","at":"2026-11-20T16:00:00+08:00","value":18400,"unit":"kPa","quantity":"gaugePressure","quality":"good"},
+    {"id":"M-UNIT","tag":"PRESS-A","at":"2026-11-20T16:05:00+08:00","value":26,"unit":"°C","quantity":"gaugePressure","quality":"good"},
+    {"id":"M-QUALITY","tag":"PRESS-A","at":"2026-11-20T16:07:00+08:00","value":181,"unit":"bar","quantity":"gaugePressure","quality":"uncertain"},
+    {"id":"M-RETEST","tag":"PRESS-A","at":"2026-11-20T19:45:00+08:00","value":16.8,"unit":"MPa","quantity":"gaugePressure","quality":"good"}
+  ]
+}

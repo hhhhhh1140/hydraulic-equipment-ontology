@@ -6,9 +6,12 @@ on:
     paths:
       - 'visualization/**'
       - 'data/industrial-demo/**'
+      - 'data/plant-intake-example/**'
       - 'model/**'
       - 'queries/industrial/**'
       - 'scripts/build_industrial.py'
+      - 'scripts/import_plant.py'
+      - 'scripts/field_graph.py'
       - 'tests/**'
       - 'service/**'
       - 'requirements.txt'
@@ -39,7 +42,7 @@ jobs:
           .validation/bin/python -m pip install -r requirements.txt
           .validation/bin/python scripts/build_industrial.py
           git diff --exit-code -- model/industrial/replay.ttl model/industrial/replay.json visualization/pilot-data.js
-          .validation/bin/python -m unittest discover -s tests -p 'test_industrial.py'
+          .validation/bin/python -m unittest discover -s tests -p 'test_*.py'
           node --test tests/*.test.cjs
       - name: Stage demo assets
         run: |

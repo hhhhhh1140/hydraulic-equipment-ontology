@@ -35,22 +35,44 @@
   function render() {
     const {case:item, stageLabel, order, revision, next, audit} = detail;
     get("stage").textContent = stageLabel;
-    get("order").textContent = `${order ?? "未建立工单"} · 版本 ${revision}`;
+    const field = detail.mode === "read-only";
+    get("order").textContent = field ? detail.orderLabel : `${order ?? "未建立工单"} · 版本 ${revision}`;
     const observation = item.observation;
     const sample = observation?.uci;
     const rows = [
-      ["告警", item.id], ["场景时刻", time(item.at)], ["安装位", item.position],
+      ["告警", item.id], [field ? "告警时刻" : "场景时刻", time(item.at)], ["安装位", item.position],
       ["告警时资产", item.asset ?? "缺失"], ["安装记录", item.installation ?? "缺失"],
       ["证据质量", item.message], ["测点", observation?.tag ?? "缺失"],
       ["原始文件", sample ? `${sample.file} · 第 ${sample.row} 行` : "缺失"],
       ["压力摘要", sample && item.quality === "QUALIFIED" ? `${sample.mean} ${sample.sourceUnit}` : "无合格读数"]
     ];
+    if (field) {
+      rows.splice(6);
+      rows.push(["告警来源", `maintenance.json · 告警数组第 ${item.sourceRow} 条`]);
+    }
     get("evidence").replaceChildren(...rows.flatMap(([key, value]) =>
       [element("dt", key), element("dd", value)]));
 
+    const references = get("field-references");
+    const orders = get("field-orders");
+    references.hidden = orders.hidden = !field;
+    if (field) {
+      references.replaceChildren(...item.references.map(ref => {
+        const reading = ref.eligible ? ` · ${ref.value} ${ref.unit}（原 ${ref.reportedValue} ${ref.reportedUnit}）` : "";
+        const origin = ref.sourceRow ? ` · historian.json 第 ${ref.sourceRow} 条` : "";
+        return element("li", `${ref.id} · ${ref.message}${reading}${origin}`);
+      }));
+      orders.replaceChildren(...item.orders.map(row => {
+        const retest = row.retest ? ` · 复测 ${row.retest.id}，${row.retest.value} ${row.retest.unit}` : "";
+        return element("li", `${row.id} · ${row.result}${retest}`);
+      }));
+    }
+
     const action = get("action");
     action.replaceChildren();
-    if (next && !next.allowed) {
+    if (field) {
+      action.append(element("p", "当前为只读快照。"));
+    } else if (next && !next.allowed) {
       action.append(element("p", `下一步为「${next.label}」，请由${roleName[next.role]}登录后操作。`));
     } else if (next) {
       const form = element("form");
@@ -80,7 +102,8 @@
       const tr = element("tr");
       tr.append(...[
         event.label,
-        event.source === "seed" ? `${event.actor}（样例）` : `${event.actor} · ${roleName[event.role]}`,
+        event.source === "seed" ? `${event.actor}（样例）` :
+          event.source === "import" ? event.actor : `${event.actor} · ${roleName[event.role]}`,
         time(event.scenarioAt), time(event.recordedAt)
       ].map(value => element("td", value)));
       return tr;
@@ -149,6 +172,18 @@
       const currentId = selection.value;
       session = {token, viewer:summary.viewer};
       get("session-identity").textContent = `${summary.viewer.id} · ${roleName[summary.viewer.role]}`;
+      const field = summary.mode === "read-only";
+      get("data-mode").textContent = field ? (summary.isSample ? "合成导入样例 · 只读核验" : "导入工作台 · 只读核验") :
+        "本地服务端回放。测点证据来自 UCI，资产、工单及场景时刻为演示数据。";
+      get("event-time-heading").textContent = field ? "来源时刻" : "场景时刻";
+      get("audit-note").textContent = field ? "下列操作和人员来自导入的维修记录。" :
+        "场景时刻用于回放排序，入库时刻由本地服务记录。";
+      const intake = get("intake-summary");
+      intake.hidden = !field;
+      if (field) {
+        const totals = summary.qualitySummary;
+        intake.textContent = `批次 ${summary.batchId} · ${totals.qualifiedAlarms} 起有合格证据 · ${totals.blockedAlarms} 起待补证据 · ${totals.verifiedClosed} 张结案已核验`;
+      }
       const plant = summary.plant;
       get("plant").textContent = [plant.name, plant.area, plant.center, plant.unit, summary.position.id].join(" → ");
       selection.replaceChildren(...summary.cases.map(item => new Option(item.label, item.id)));

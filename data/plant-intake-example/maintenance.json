@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-11-25T08:00:00+08:00",
+  "alarms": [
+    {"id":"AL-OLD","label":"换泵前的旧资产告警","position":"POS-A","at":"2026-11-20T15:59:58+08:00","measurementIds":["M-OLD"]},
+    {"id":"AL-NEW","label":"换泵时的新资产告警","position":"POS-A","at":"2026-11-20T16:00:00+08:00","measurementIds":["M-NEW"]},
+    {"id":"AL-CROSS","label":"告警引用了换泵前的读数","position":"POS-A","at":"2026-11-20T16:01:00+08:00","measurementIds":["M-OLD"]},
+    {"id":"AL-UNIT","label":"上报单位不兼容","position":"POS-A","at":"2026-11-20T16:06:00+08:00","measurementIds":["M-UNIT"]},
+    {"id":"AL-QUALITY","label":"测点质量不确定且有缺测","position":"POS-A","at":"2026-11-20T16:08:00+08:00","measurementIds":["M-QUALITY","M-MISSING"]}
+  ],
+  "workOrders": [
+    {"id":"WO-OK","alarm":"AL-NEW","asset":"PUMP-B","status":"closed","faultCode":"PUMP_INTERNAL_LEAK",
+     "confirmedAt":"2026-11-20T16:30:00+08:00","confirmedBy":"example.engineer","approvedAt":"2026-11-20T17:00:00+08:00",
+     "completedAt":"2026-11-20T19:30:00+08:00","retestId":"M-RETEST","retestResult":"pass","retestBy":"example.reviewer",
+     "closedAt":"2026-11-20T20:00:00+08:00"},
+    {"id":"WO-WRONG","alarm":"AL-CROSS","asset":"PUMP-A","status":"inProgress"},
+    {"id":"WO-NO-RETEST","alarm":"AL-NEW","asset":"PUMP-B","status":"closed","faultCode":"PUMP_INTERNAL_LEAK",
+     "confirmedAt":"2026-11-20T16:30:00+08:00","confirmedBy":"example.engineer","approvedAt":"2026-11-20T17:00:00+08:00",
+     "completedAt":"2026-11-20T19:30:00+08:00","retestId":"M-NEW","retestResult":"pass","retestBy":"example.reviewer",
+     "closedAt":"2026-11-20T20:00:00+08:00"}
+  ]
+}

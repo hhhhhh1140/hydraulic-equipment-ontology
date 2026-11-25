@@ -17,7 +17,35 @@ class RequestError extends Error {
   }
 }
 
+function openReadOnly(snapshot) {
+  if (snapshot.schemaVersion !== 1 || !Array.isArray(snapshot.cases)) {
+    throw new Error("现场只读快照版本无效。");
+  }
+  const cases = new Map(snapshot.cases.map(item => [item.id, item]));
+  return {
+    summary: () => ({mode:"read-only", plant:snapshot.plant, position:snapshot.position,
+      batchId:snapshot.batchId, isSample:snapshot.isSample === true, qualitySummary:snapshot.summary,
+      cases:[...cases.values()].map(item => ({id:item.id, label:item.label}))}),
+    detail: id => {
+      const item = cases.get(id);
+      if (!item) throw new RequestError(404, "CASE_NOT_FOUND", "未找到该告警。");
+      const closed = item.orders.filter(order => order.result === "结案已核验");
+      const pending = item.orders.filter(order => order.result.includes("待核验"));
+      return {mode:"read-only", case:item, stageLabel:item.quality === "QUALIFIED" ? "证据已核验" : "待补证据",
+        order:item.orders.map(order => order.id).join(" / ") || null,
+        orderLabel:`已核验结案 ${closed.length} · 待核验工单 ${pending.length}`,
+        next:null, audit:item.readAudit};
+    },
+    apply: () => {
+      throw new RequestError(403, "READ_ONLY", "现场快照工作台只读，不能提交工单操作。");
+    },
+    close: () => {}
+  };
+}
+
 function openStore(filename, snapshot) {
+  if (snapshot.mode === "read-only") return openReadOnly(snapshot);
+  if (snapshot.mode !== undefined) throw new Error("快照的工作台模式无效。");
   const db = new DatabaseSync(filename);
   const cases = new Map(snapshot.cases.map(item => [item.id, item]));
   const snapshotHash = createHash("sha256").update(JSON.stringify(snapshot)).digest("hex");

@@ -1,0 +1,26 @@
+@prefix m: <https://example.org/hydraulics/industrial#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+m:FieldObservationShape a sh:NodeShape ;
+    sh:targetClass m:FieldObservation ;
+    sh:property [ sh:path sosa:madeBySensor ; sh:class m:Tag ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path sosa:hasFeatureOfInterest ; sh:class m:Asset ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:installation ; sh:class m:Installation ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:observedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:reading ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:standardUnit ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:class prov:Entity ; sh:minCount 1 ] ;
+    sh:property [ sh:path m:sourceRow ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:minCount 1 ] .
+
+m:VerifiedFieldOrderShape a sh:NodeShape ;
+    sh:targetClass m:VerifiedFieldOrder ;
+    sh:property [ sh:path m:asset ; sh:class m:Asset ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:relatedAlarm ; sh:class m:FieldAlarm ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:retestObservation ; sh:class m:FieldObservation ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path m:confirmedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ] ;
+    sh:property [ sh:path m:approvedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ] ;
+    sh:property [ sh:path m:completedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ] ;
+    sh:property [ sh:path m:closedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ] .

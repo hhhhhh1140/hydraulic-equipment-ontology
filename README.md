@@ -32,6 +32,10 @@
 
 [启动与角色操作说明](docs/maintenance-service.md)。在项目根目录运行 `node service/server.cjs`，打开 [本机工作台](http://127.0.0.1:8766/)。工程师、审批人和维修人员各用本地生成的密钥登录，工单动作在服务端校验，写入 SQLite 并保留审计。项目中已附回放快照。
 
+## 现场数据导入与只读核验
+
+[三源导出契约、操作步骤和验收](docs/plant-intake.md)。导入设备台账、带时区的测点记录与维修记录后，可生成本地只读快照、质量报告和通过 SHACL 的 RDF。仓库提供合成样例，以便先检查换装时间、单位和工单复测关系。
+
 ## 在 VS Code 里打开
 
 1. 打开 [hydraulic-equipment-ontology.code-workspace](hydraulic-equipment-ontology.code-workspace)，或者在 VS Code 里选择 **文件 → 打开文件夹**，选中本项目目录。

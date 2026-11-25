@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "isSample": true,
+  "plant": {"id": "SITE-X", "name": "合成采集站点", "area": "成形车间", "center": "成形线 A", "unit": "液压工位 A"},
+  "position": {"id": "POS-A", "name": "主泵安装位"},
+  "assets": [
+    {"id": "PUMP-A", "name": "样例旧泵"},
+    {"id": "PUMP-B", "name": "样例新泵"}
+  ],
+  "installations": [
+    {"id":"I-OLD","position":"POS-A","asset":"PUMP-A","from":"2026-11-01T08:00:00+08:00","until":"2026-11-20T16:00:00+08:00"},
+    {"id":"I-NEW","position":"POS-A","asset":"PUMP-B","from":"2026-11-20T16:00:00+08:00","until":null}
+  ],
+  "tags": [
+    {"id":"PRESS-A","label":"主泵表压","position":"POS-A","quantity":"gaugePressure","unit":"bar"}
+  ]
+}

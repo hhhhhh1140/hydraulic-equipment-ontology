@@ -14,3 +14,5 @@
   .workbench .table th,.workbench .table td {padding:5px 3px}
   .workbench .table th:first-child {width:37%}
 }
+
+.field-list {padding-left:1.2rem;margin:0;overflow-wrap:anywhere}

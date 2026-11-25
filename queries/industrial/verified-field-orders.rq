@@ -1,0 +1,13 @@
+# Against one field-facts.ttl. Returns only orders that passed the import's evidence checks.
+PREFIX m: <https://example.org/hydraulics/industrial#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?assetName ?orderId ?faultCode ?closedAt ?file ?row WHERE {
+  ?order a m:VerifiedFieldOrder ; dct:identifier ?orderId ; m:asset ?asset ;
+    m:fieldFaultCode ?faultCode ; m:closedAt ?closedAt ; m:retestObservation ?retest .
+  ?asset rdfs:label ?assetName .
+  ?retest m:sourceRow ?row ; prov:wasDerivedFrom ?source .
+  ?source dct:identifier ?file .
+}
+ORDER BY DESC(?closedAt) ?orderId

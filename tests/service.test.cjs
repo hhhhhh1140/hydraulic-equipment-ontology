@@ -14,8 +14,8 @@ const identities = [
   {id:"carol", role:"technician", token:"c".repeat(64)}
 ];
 
-async function boot(filename) {
-  const store = openStore(filename, snapshot);
+async function boot(filename, source = snapshot) {
+  const store = openStore(filename, source);
   const server = startServer(store, identities);
   const listening = once(server, "listening");
   server.listen(0, "127.0.0.1");
@@ -98,6 +98,34 @@ test("HTTP work orders enforce roles, handle duplicate and stale requests, and p
 
     const other = {...snapshot, asOf:"2026-11-26T00:00:00Z"};
     assert.throws(() => openStore(filename, other), /另一份回放数据/);
+  } finally {
+    if (app) await stop(app);
+    rmSync(directory, {recursive:true, force:true});
+  }
+});
+
+test("field snapshots are readable and reject every mutation without opening a SQLite file", async () => {
+  const directory = mkdtempSync(join(tmpdir(), "field-workbench-"));
+  const filename = join(directory, "read-only.sqlite");
+  const field = {...snapshot, mode:"read-only", schemaVersion:1, batchId:"fixture",
+    summary:{qualifiedAlarms:1, blockedAlarms:0, verifiedClosed:1},
+    cases:[{id:"AL-NEW", label:"Field test", quality:"QUALIFIED", asset:"PUMP-B",
+      orders:[{id:"WO-OK", result:"结案已核验"}], references:[], readAudit:[]}]};
+  let app;
+  try {
+    app = await boot(filename, field);
+    const path = "/api/cases/AL-NEW";
+    assert.equal((await request(app, "/api/cases", 0)).data.mode, "read-only");
+    const detail = (await request(app, path, 0)).data;
+    assert.equal(detail.case.asset, "PUMP-B");
+    assert.equal(detail.next, null);
+    for (let actor = 0; actor < identities.length; actor++) {
+      const attempted = await request(app, path + "/actions", actor,
+        {action:"confirm", revision:0, requestId:"field-denied"});
+      assert.equal(attempted.status, 403);
+      assert.equal(attempted.data.code, "READ_ONLY");
+    }
+    assert.throws(() => readFileSync(filename), {code:"ENOENT"});
   } finally {
     if (app) await stop(app);
     rmSync(directory, {recursive:true, force:true});
